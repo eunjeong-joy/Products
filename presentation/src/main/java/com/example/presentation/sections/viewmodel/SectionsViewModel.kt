@@ -25,8 +25,16 @@ class SectionsViewModel @Inject constructor(
         super.onCleared()
     }
 
-    fun setRefreshState(state: Boolean) {
+    private fun setRefreshState(state: Boolean) {
         _refreshState.value = state
+    }
+
+    fun showPullRefreshIndicatorShowing() {
+        setRefreshState(true)
+    }
+
+    private fun hidePullRefreshIndicatorShowing() {
+        setRefreshState(true)
     }
 
     fun fetchSections() {
@@ -34,7 +42,7 @@ class SectionsViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .doOnSubscribe {
-                setRefreshState(false)
+                hidePullRefreshIndicatorShowing()
             }
             .subscribe { result ->
                 //TODO : 섹션 정보 받아온 후 상품 정보 노춣 진행

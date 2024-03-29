@@ -35,7 +35,7 @@ fun SectionsScreenView(
     val pullRefreshState = rememberPullRefreshState(
         refreshing = refreshState ?: false,
         onRefresh = {
-            viewModel.setRefreshState(true)
+            viewModel.showPullRefreshIndicatorShowing()
             viewModel.fetchSections()
         }
     )
