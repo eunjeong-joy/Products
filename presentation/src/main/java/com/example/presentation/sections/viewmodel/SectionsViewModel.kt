@@ -1,4 +1,4 @@
-package com.example.presentation.products.viewmodel
+package com.example.presentation.sections.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsViewModel @Inject constructor(): ViewModel(){
+class SectionsViewModel @Inject constructor(): ViewModel(){
     private val _refreshState = MutableLiveData<Boolean>(false)
     val refreshState: LiveData<Boolean> = _refreshState
 
