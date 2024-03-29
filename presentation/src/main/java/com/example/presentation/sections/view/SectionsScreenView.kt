@@ -36,6 +36,7 @@ fun SectionsScreenView(
         refreshing = refreshState ?: false,
         onRefresh = {
             viewModel.setRefreshState(true)
+            viewModel.fetchSections()
         }
     )
 

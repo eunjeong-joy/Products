@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -68,4 +69,8 @@ dependencies {
     //hilt
     implementation("com.google.dagger:hilt-android:2.43.2")
     kapt("com.google.dagger:hilt-compiler:2.43.2")
+
+    //rxjava
+    implementation("io.reactivex.rxjava2:rxkotlin:2.2.0")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 }
