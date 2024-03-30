@@ -3,7 +3,10 @@ package com.example.presentation.sections.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.domain.section.model.SectionEntity
 import com.example.domain.section.usecase.FetchSectionsUseCase
+import com.example.presentation.sections.data.Section
+import com.example.presentation.sections.data.Section.Companion.convertTo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,6 +22,9 @@ class SectionsViewModel @Inject constructor(
 
     private val _refreshState = MutableLiveData<Boolean>(false)
     val refreshState: LiveData<Boolean> = _refreshState
+
+    private val _sections = MutableLiveData<List<Section>>()
+    val sections: LiveData<List<Section>> = _sections
 
     private var nextPage: Int? = null
 
@@ -47,10 +53,14 @@ class SectionsViewModel @Inject constructor(
                 hidePullRefreshIndicatorShowing()
             }
             .subscribe { result ->
-                //TODO : 섹션 정보 받아온 후 상품 정보 노춣 진행
                 updateNextPage(result.nextPage)
+                updateSections(result.sections)
             }
             .addTo(compositeDisposable)
+    }
+
+    private fun updateSections(sections: List<SectionEntity>) {
+        _sections.value = sections.convertTo()
     }
 
     private fun updateNextPage(page: Int?) {
