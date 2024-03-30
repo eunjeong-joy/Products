@@ -1,4 +1,4 @@
-package com.example.presentation.products.view
+package com.example.presentation.sections.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,19 +15,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.presentation.products.viewmodel.ProductsViewModel
+import com.example.presentation.sections.viewmodel.SectionsViewModel
 
 
 @Preview
 @Composable
 private fun PreviewProductScreenView() {
-    ProductsScreenView()
+    SectionsScreenView()
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ProductsScreenView(
-    viewModel: ProductsViewModel = hiltViewModel()
+fun SectionsScreenView(
+    viewModel: SectionsViewModel = hiltViewModel()
 ) {
 
     val refreshState by viewModel.refreshState.observeAsState()
@@ -35,7 +35,8 @@ fun ProductsScreenView(
     val pullRefreshState = rememberPullRefreshState(
         refreshing = refreshState ?: false,
         onRefresh = {
-            viewModel.setRefreshState(true)
+            viewModel.showPullRefreshIndicatorShowing()
+            viewModel.fetchSections()
         }
     )
 

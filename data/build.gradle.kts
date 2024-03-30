@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -50,4 +51,10 @@ dependencies {
     //retrofit
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+
+    //rxjava
+    implementation("io.reactivex.rxjava2:rxkotlin:2.2.0")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 }
