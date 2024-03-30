@@ -1,7 +1,7 @@
 package com.example.data.section.repo
 
 import com.example.data.network.Apiservice
-import com.example.data.section.repo.model.SectionDto.Companion.convertTo
+import com.example.data.section.model.SectionDto.Companion.convertTo
 import com.example.domain.section.model.SectionsResponse
 import com.example.domain.section.repo.SectionRepository
 import io.reactivex.Single
