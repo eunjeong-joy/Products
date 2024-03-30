@@ -34,7 +34,7 @@ class SectionsViewModel @Inject constructor(
     }
 
     private fun hidePullRefreshIndicatorShowing() {
-        setRefreshState(true)
+        setRefreshState(false)
     }
 
     fun fetchSections() {
