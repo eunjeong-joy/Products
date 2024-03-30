@@ -1,21 +1,32 @@
 package com.example.presentation.product.model
 
+import com.example.domain.product.model.ProductEntity
+import java.util.Locale
+
 data class Product(
     val id: Int,
     val name: String,
     val image: String,
-    val originalPrice: String,
-    val discountedPrice: String?,
-    val discountedRate: String?
+    val originalPrice: Int,
+    val discountedPrice: Int?,
+    val discountedRate: Float?
 ) {
     companion object {
-        fun dummy() = Product(
-            id = 5063110,
-            name = "[연세우유 x 마켓컬리] 전용목장우유 900mL",
-            image = "https://img-cf.kurly.com/shop/data/goods/1637154205701l0.jpg",
-            originalPrice = "2,070원",
-            discountedPrice = "1,800원",
-            discountedRate = "13%"
-        )
+        fun ProductEntity.convertTo(): Product {
+            val discountRate = this.discountedPrice?.let {
+                ((this.originalPrice.toFloat() - it.toFloat()) / this.originalPrice.toFloat()) * 100
+            }
+
+            return Product(
+                id = this.id,
+                name = this.name,
+                image = this.image,
+                originalPrice = this.originalPrice,
+                discountedPrice = this.discountedPrice,
+                discountedRate = discountRate
+            )
+        }
+
+        fun dummy() = ProductEntity.dummy().convertTo()
     }
 }

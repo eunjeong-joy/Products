@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.presentation.R
 import com.example.presentation.product.model.Product
-
+import java.text.NumberFormat
 
 @Preview
 @Composable
@@ -66,21 +66,21 @@ fun SmallProduct(
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (product.discountedRate != null) {
                 Text(
-                    text = product.discountedRate,
+                    text = "${NumberFormat.getIntegerInstance().format(product.discountedRate)}%",
                     fontSize = 12.sp,
                     color = Color(0xFFFA622F)
                 )
                 Spacer(modifier = Modifier.width(3.dp))
             }
             Text(
-                text = product.originalPrice,
+                text = "${NumberFormat.getIntegerInstance().format(product.originalPrice)}원",
                 fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold
             )
         }
         if (product.discountedPrice != null) {
             Text(
-                text = product.discountedPrice,
+                text = "${NumberFormat.getIntegerInstance().format(product.discountedPrice)}원",
                 fontSize = 10.sp,
                 style = TextStyle(textDecoration = TextDecoration.LineThrough),
                 color = Color(0xFF949494)
