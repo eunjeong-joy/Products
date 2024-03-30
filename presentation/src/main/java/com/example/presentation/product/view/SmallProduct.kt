@@ -24,17 +24,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.presentation.R
+import com.example.presentation.product.model.Product
 
 
 @Preview
 @Composable
 fun PreviewSmallProduct() {
-    SmallProduct()
+    SmallProduct(product = Product.dummy())
 }
 
 @Composable
 fun SmallProduct(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    product: Product
 ) {
     Column(modifier = Modifier.width(150.dp)) {
         Box(
@@ -42,7 +44,7 @@ fun SmallProduct(
                 .height(200.dp)
         ) {
             AsyncImage(
-                model = "https://img-cf.kurly.com/shop/data/goods/1637154205701l0.jpg",
+                model = product.image,
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -55,30 +57,34 @@ fun SmallProduct(
             )
         }
         Text(
-            text = "[샐러딩] 레디믹스 스탠다드 150g",
+            text = product.name,
             fontSize = 15.sp,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(2.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
+            if (product.discountedRate != null) {
+                Text(
+                    text = product.discountedRate,
+                    fontSize = 12.sp,
+                    color = Color(0xFFFA622F)
+                )
+                Spacer(modifier = Modifier.width(3.dp))
+            }
             Text(
-                text = "30%",
-                fontSize = 12.sp,
-                color = Color(0xFFFA622F)
-            )
-            Spacer(modifier = Modifier.width(3.dp))
-            Text(
-                text = "6,200원",
+                text = product.originalPrice,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold
             )
         }
-        Text(
-            text = "8,000원",
-            fontSize = 10.sp,
-            style = TextStyle(textDecoration = TextDecoration.LineThrough),
-            color = Color(0xFF949494)
-        )
+        if (product.discountedPrice != null) {
+            Text(
+                text = product.discountedPrice,
+                fontSize = 10.sp,
+                style = TextStyle(textDecoration = TextDecoration.LineThrough),
+                color = Color(0xFF949494)
+            )
+        }
     }
 }
