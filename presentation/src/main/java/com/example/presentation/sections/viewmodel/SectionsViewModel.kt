@@ -14,11 +14,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SectionsViewModel @Inject constructor(
     private val fetchSectionsUseCase: FetchSectionsUseCase
-): ViewModel(){
+) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     private val _refreshState = MutableLiveData<Boolean>(false)
     val refreshState: LiveData<Boolean> = _refreshState
+
+    private var nextPage: Int? = null
 
     override fun onCleared() {
         compositeDisposable.clear()
@@ -38,7 +40,7 @@ class SectionsViewModel @Inject constructor(
     }
 
     fun fetchSections() {
-        fetchSectionsUseCase()
+        fetchSectionsUseCase(nextPage ?: 1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .doOnSubscribe {
@@ -46,7 +48,12 @@ class SectionsViewModel @Inject constructor(
             }
             .subscribe { result ->
                 //TODO : 섹션 정보 받아온 후 상품 정보 노춣 진행
+                updateNextPage(result.nextPage)
             }
             .addTo(compositeDisposable)
+    }
+
+    private fun updateNextPage(page: Int?) {
+        this.nextPage = page ?: 1
     }
 }
