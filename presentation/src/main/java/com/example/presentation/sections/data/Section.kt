@@ -17,5 +17,7 @@ data class Section(
         )
 
         fun List<SectionEntity>.convertTo() = this.map { it.convertTo() }
+
+        fun dummy() = SectionEntity.dummy().convertTo()
     }
 }
