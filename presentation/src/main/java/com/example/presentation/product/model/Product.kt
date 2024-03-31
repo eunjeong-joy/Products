@@ -28,5 +28,7 @@ data class Product(
         }
 
         fun dummy() = ProductEntity.dummy().convertTo()
+
+        fun List<ProductEntity>.convertTo() = this.map { it.convertTo() }
     }
 }
