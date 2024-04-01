@@ -8,14 +8,13 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.presentation.product.model.Product
 import com.example.presentation.product.view.HorizontalSection
 import com.example.presentation.sections.data.SectionType
 import com.example.presentation.sections.viewmodel.SectionsViewModel
@@ -33,7 +32,7 @@ fun SectionsScreenView(
     sectionsViewModel: SectionsViewModel = hiltViewModel()
 ) {
 
-    val refreshState by sectionsViewModel.refreshState.observeAsState()
+    val refreshState by sectionsViewModel.refreshState.collectAsState()
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = refreshState ?: false,
@@ -44,7 +43,7 @@ fun SectionsScreenView(
         }
     )
 
-    val sections = sectionsViewModel.sections.observeAsState()
+    val sections by sectionsViewModel.sections.collectAsState()
 
     Box(
         modifier = Modifier
@@ -55,28 +54,25 @@ fun SectionsScreenView(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            sections.value?.let { secations ->
-                secations.forEach { section ->
-                    when (section.type) {
-                        SectionType.HORIZONTAL -> {
-                            item {
-                                HorizontalSection(
-                                    section = section,
-                                    products = Product.dummyList()
-                                )
-                            }
+            sections.forEach { section ->
+                when (section.type) {
+                    SectionType.HORIZONTAL -> {
+                        item {
+                            HorizontalSection(
+                                section = section
+                            )
                         }
-
-                        SectionType.VERTICAL -> {
-                            //TODO : VERTICAL section 작업 예정
-                        }
-
-                        SectionType.GRID -> {
-                            //TODO : GRID section 작업 예정
-                        }
-
-                        else -> {} // nothing
                     }
+
+                    SectionType.VERTICAL -> {
+                        //TODO : VERTICAL section 작업 예정
+                    }
+
+                    SectionType.GRID -> {
+                        //TODO : GRID section 작업 예정
+                    }
+
+                    else -> {} // nothing
                 }
             }
         }
