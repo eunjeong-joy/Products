@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,19 +31,20 @@ fun HorizontalSection(
 ) {
     if (section.products.isEmpty()) {
         viewModel.fetchProducts(section.id)
-    }
-
-    Column {
-        SectionTitle(
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp),
-            title = section.title
-        )
-        Spacer(modifier = Modifier.height(15.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(section.products) { product ->
-                SmallProduct(product = product)
+        Text(text = "Loading") //임시 loading UI
+    } else {
+        Column {
+            SectionTitle(
+                modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp),
+                title = section.title
+            )
+            Spacer(modifier = Modifier.height(15.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(section.products) { product ->
+                    SmallProduct(product = product)
+                }
             }
         }
     }

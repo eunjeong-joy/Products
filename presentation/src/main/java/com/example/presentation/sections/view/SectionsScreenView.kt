@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -39,6 +40,7 @@ fun SectionsScreenView(
         refreshingOffset = 30.dp,
         onRefresh = {
             viewModel.showPullRefreshIndicatorShowing()
+            viewModel.sectionsClear()
             viewModel.fetchSections()
         }
     )
@@ -50,6 +52,7 @@ fun SectionsScreenView(
             .fillMaxSize()
             .pullRefresh(pullRefreshState)
     ) {
+        if(sections.isNotEmpty()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -75,6 +78,8 @@ fun SectionsScreenView(
                     else -> {} // nothing
                 }
             }
+        }} else {
+            Text(text = "section loading") //임시 loading UI
         }
         PullRefreshIndicator(
             modifier = Modifier.align(Alignment.TopCenter),

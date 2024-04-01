@@ -53,6 +53,9 @@ class SectionsViewModel @Inject constructor(
         setRefreshState(false)
     }
 
+    fun sectionsClear() {
+        _sections.value = emptyList()
+    }
     fun fetchSections() {
         fetchSectionsUseCase(nextPage ?: 1)
             .observeOn(AndroidSchedulers.mainThread())
