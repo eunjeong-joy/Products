@@ -32,6 +32,10 @@ class SectionsViewModel @Inject constructor(
 
     private var nextPage: Int? = null
 
+    init {
+        fetchSections()
+    }
+
     override fun onCleared() {
         compositeDisposable.clear()
         super.onCleared()
