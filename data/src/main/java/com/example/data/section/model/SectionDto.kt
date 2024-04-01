@@ -1,4 +1,4 @@
-package com.example.data.section.repo.model
+package com.example.data.section.model
 
 import com.example.domain.section.model.SectionEntity
 import com.google.gson.annotations.SerializedName

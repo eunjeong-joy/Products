@@ -35,7 +35,6 @@ fun PreviewSmallProduct() {
 
 @Composable
 fun SmallProduct(
-    modifier: Modifier = Modifier,
     product: Product
 ) {
     Column(modifier = Modifier.width(150.dp)) {
