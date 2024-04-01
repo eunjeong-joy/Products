@@ -2,6 +2,7 @@ package com.example.presentation.sections.data
 
 import com.example.domain.section.model.SectionEntity
 import com.example.presentation.product.model.Product
+import com.example.presentation.sections.data.Section.Companion.convertTo
 
 data class Section(
     val title: String,
@@ -20,6 +21,12 @@ data class Section(
 
         fun List<SectionEntity>.convertTo() = this.map { it.convertTo() }
 
-        fun dummy() = SectionEntity.dummy().convertTo()
+        fun dummy() = Section(
+            title = SectionEntity.dummy().title,
+            id = SectionEntity.dummy().id,
+            type = SectionType.from(SectionEntity.dummy().type)?.let { it }?: SectionType.NONE,
+            url = SectionEntity.dummy().url,
+            products = Product.dummyList()
+        )
     }
 }

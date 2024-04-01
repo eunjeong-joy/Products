@@ -11,23 +11,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.presentation.product.model.Product
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.sections.data.Section
+import com.example.presentation.sections.viewmodel.SectionsViewModel
 
 @Preview
 @Composable
 fun PreviewHorizontalSection() {
     HorizontalSection(
-        section = Section.dummy(),
-        products = Product.dummyList()
+        section = Section.dummy()
     )
 }
 
 @Composable
 fun HorizontalSection(
     section: Section,
-    products: List<Product>
+    viewModel: SectionsViewModel = hiltViewModel()
 ) {
+    if (section.products.isEmpty()) {
+        viewModel.fetchProducts(section.id)
+    }
+
     Column {
         SectionTitle(
             modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp),
@@ -37,7 +41,7 @@ fun HorizontalSection(
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(products) { product ->
+            items(section.products) { product ->
                 SmallProduct(product = product)
             }
         }

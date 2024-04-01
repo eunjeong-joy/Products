@@ -11,11 +11,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val sectionsViewModel: SectionsViewModel by viewModels()
+    private val viewModel: SectionsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SectionsScreenView(sectionsViewModel = sectionsViewModel)
+            SectionsScreenView(viewModel = viewModel)
         }
     }
 }

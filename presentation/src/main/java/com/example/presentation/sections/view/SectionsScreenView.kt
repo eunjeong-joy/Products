@@ -29,21 +29,21 @@ private fun PreviewProductScreenView() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SectionsScreenView(
-    sectionsViewModel: SectionsViewModel = hiltViewModel()
+    viewModel: SectionsViewModel = hiltViewModel()
 ) {
 
-    val refreshState by sectionsViewModel.refreshState.collectAsState()
+    val refreshState by viewModel.refreshState.collectAsState()
 
     val pullRefreshState = rememberPullRefreshState(
-        refreshing = refreshState ?: false,
+        refreshing = refreshState,
         refreshingOffset = 30.dp,
         onRefresh = {
-            sectionsViewModel.showPullRefreshIndicatorShowing()
-            sectionsViewModel.fetchSections()
+            viewModel.showPullRefreshIndicatorShowing()
+            viewModel.fetchSections()
         }
     )
 
-    val sections by sectionsViewModel.sections.collectAsState()
+    val sections by viewModel.sections.collectAsState()
 
     Box(
         modifier = Modifier
