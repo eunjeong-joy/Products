@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -26,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,25 +38,26 @@ import java.text.NumberFormat
 
 @Preview
 @Composable
-fun PreviewSmallProduct() {
-    SmallProduct(product = Product.dummy())
+fun PreviewVerticalTypeProduct() {
+    VerticalTypeProduct(product = Product.dummy())
 }
 
 @Composable
-fun SmallProduct(
+fun VerticalTypeProduct(
+    modifier: Modifier = Modifier,
     product: Product,
-    widthSize: Dp = 150.dp,
     viewModel: SectionsViewModel = hiltViewModel()
 ) {
     var bookmarkState by rememberSaveable { mutableStateOf(product.isBookmarked) }
 
-    Column(modifier = Modifier.width(widthSize)) {
-        Box(
-            modifier = Modifier.aspectRatio(
-                ratio = 0.75f
-            )
-        ) {
+    Column(modifier = modifier) {
+        Box {
             AsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(
+                        ratio = 1.5f
+                    ),
                 model = product.image,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
@@ -70,7 +71,7 @@ fun SmallProduct(
                 contentDescription = "heart",
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(start = 0.dp, top = 5.dp, end = 5.dp, bottom = 0.dp)
+                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
                     .clickable {
                         if (bookmarkState) {
                             viewModel.deleteBookmark(product.id)
@@ -83,33 +84,34 @@ fun SmallProduct(
         }
         Text(
             text = product.name,
-            fontSize = 15.sp,
-            maxLines = 2,
+            fontSize = 20.sp,
+            maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        Spacer(modifier = Modifier.height(2.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.height(3.dp))
+        Row(verticalAlignment = Alignment.Bottom) {
             if (product.discountedRate != null) {
                 Text(
                     text = "${NumberFormat.getIntegerInstance().format(product.discountedRate)}%",
-                    fontSize = 12.sp,
+                    fontSize = 18.sp,
                     color = Color(0xFFFA622F)
                 )
-                Spacer(modifier = Modifier.width(3.dp))
+                Spacer(modifier = Modifier.width(6.dp))
             }
             Text(
                 text = "${NumberFormat.getIntegerInstance().format(product.originalPrice)}원",
-                fontSize = 12.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.ExtraBold
             )
-        }
-        if (product.discountedPrice != null) {
-            Text(
-                text = "${NumberFormat.getIntegerInstance().format(product.discountedPrice)}원",
-                fontSize = 10.sp,
-                style = TextStyle(textDecoration = TextDecoration.LineThrough),
-                color = Color(0xFF949494)
-            )
+            if (product.discountedPrice != null) {
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = "${NumberFormat.getIntegerInstance().format(product.discountedPrice)}원",
+                    fontSize = 14.sp,
+                    style = TextStyle(textDecoration = TextDecoration.LineThrough),
+                    color = Color(0xFF949494)
+                )
+            }
         }
     }
 }

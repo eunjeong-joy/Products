@@ -57,7 +57,7 @@ fun GridSection(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 section.products.forEach {
-                    SmallProduct(
+                    GridTypeProduct(
                         product = it,
                         widthSize = productWidth
                     )

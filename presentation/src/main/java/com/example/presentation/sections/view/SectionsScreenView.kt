@@ -1,7 +1,6 @@
 package com.example.presentation.sections.view
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.presentation.product.view.BigProduct
 import com.example.presentation.product.view.GridSection
 import com.example.presentation.product.view.HorizontalSection
 import com.example.presentation.product.view.ProductsLoadingView
 import com.example.presentation.product.view.SectionTitle
 import com.example.presentation.product.view.SectionsLoadingView
+import com.example.presentation.product.view.VerticalTypeProduct
 import com.example.presentation.sections.data.SectionType
 import com.example.presentation.sections.viewmodel.SectionsViewModel
 
@@ -93,7 +92,7 @@ fun SectionsScreenView(
                                 }
 
                                 items(section.products) { product ->
-                                    BigProduct(
+                                    VerticalTypeProduct(
                                         modifier = Modifier.padding(
                                             start = 15.dp,
                                             end = 15.dp,

@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,26 +39,23 @@ import java.text.NumberFormat
 
 @Preview
 @Composable
-fun PreviewBigProduct() {
-    BigProduct(product = Product.dummy())
+fun PreviewHorizontalTypeProduct() {
+    HorizontalTypeProduct(product = Product.dummy())
 }
 
 @Composable
-fun BigProduct(
-    modifier: Modifier = Modifier,
+fun HorizontalTypeProduct(
     product: Product,
     viewModel: SectionsViewModel = hiltViewModel()
 ) {
     var bookmarkState by rememberSaveable { mutableStateOf(product.isBookmarked) }
 
-    Column(modifier = modifier) {
-        Box {
+    Column(modifier = Modifier
+        .width(150.dp)
+        .heightIn(275.dp)
+    ) {
+        Box(modifier = Modifier.height(200.dp)) {
             AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(
-                        ratio = 1.5f
-                    ),
                 model = product.image,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
@@ -71,7 +69,7 @@ fun BigProduct(
                 contentDescription = "heart",
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .padding(start = 0.dp, top = 5.dp, end = 5.dp, bottom = 0.dp)
                     .clickable {
                         if (bookmarkState) {
                             viewModel.deleteBookmark(product.id)
@@ -84,34 +82,33 @@ fun BigProduct(
         }
         Text(
             text = product.name,
-            fontSize = 20.sp,
-            maxLines = 1,
+            fontSize = 15.sp,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        Spacer(modifier = Modifier.height(3.dp))
-        Row(verticalAlignment = Alignment.Bottom) {
+        Spacer(modifier = Modifier.height(2.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
             if (product.discountedRate != null) {
                 Text(
                     text = "${NumberFormat.getIntegerInstance().format(product.discountedRate)}%",
-                    fontSize = 18.sp,
+                    fontSize = 12.sp,
                     color = Color(0xFFFA622F)
                 )
-                Spacer(modifier = Modifier.width(6.dp))
+                Spacer(modifier = Modifier.width(3.dp))
             }
             Text(
                 text = "${NumberFormat.getIntegerInstance().format(product.originalPrice)}원",
-                fontSize = 18.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold
             )
-            if (product.discountedPrice != null) {
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = "${NumberFormat.getIntegerInstance().format(product.discountedPrice)}원",
-                    fontSize = 14.sp,
-                    style = TextStyle(textDecoration = TextDecoration.LineThrough),
-                    color = Color(0xFF949494)
-                )
-            }
+        }
+        if (product.discountedPrice != null) {
+            Text(
+                text = "${NumberFormat.getIntegerInstance().format(product.discountedPrice)}원",
+                fontSize = 10.sp,
+                style = TextStyle(textDecoration = TextDecoration.LineThrough),
+                color = Color(0xFF949494)
+            )
         }
     }
 }
