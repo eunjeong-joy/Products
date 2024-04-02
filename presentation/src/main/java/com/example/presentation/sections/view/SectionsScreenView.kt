@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.presentation.product.view.GridSection
 import com.example.presentation.product.view.HorizontalSection
 import com.example.presentation.sections.data.SectionType
 import com.example.presentation.sections.viewmodel.SectionsViewModel
@@ -52,39 +53,44 @@ fun SectionsScreenView(
             .fillMaxSize()
             .pullRefresh(pullRefreshState)
     ) {
-        if(sections.isNotEmpty()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            sections.forEach { section ->
-                when (section.type) {
-                    SectionType.HORIZONTAL -> {
-                        item {
-                            HorizontalSection(
-                                section = section
-                            )
+        if (sections.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                sections.forEach { section ->
+                    when (section.type) {
+                        SectionType.HORIZONTAL -> {
+                            item {
+                                HorizontalSection(
+                                    section = section
+                                )
+                            }
+                        }
+
+                        SectionType.VERTICAL -> {
+                            //TODO : VERTICAL section 작업 예정
+                        }
+
+                        SectionType.GRID -> {
+                            item {
+                                    GridSection(
+                                        section = section
+                                    )
+                                }
+                            }
+
+                            else -> {} // nothing
                         }
                     }
-
-                    SectionType.VERTICAL -> {
-                        //TODO : VERTICAL section 작업 예정
-                    }
-
-                    SectionType.GRID -> {
-                        //TODO : GRID section 작업 예정
-                    }
-
-                    else -> {} // nothing
                 }
+            } else {
+                Text(text = "section loading") //임시 loading UI
             }
-        }} else {
-            Text(text = "section loading") //임시 loading UI
+            PullRefreshIndicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                refreshing = refreshState ?: false,
+                state = pullRefreshState
+            )
         }
-        PullRefreshIndicator(
-            modifier = Modifier.align(Alignment.TopCenter),
-            refreshing = refreshState ?: false,
-            state = pullRefreshState
-        )
     }
-}
