@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import com.example.domain.product.model.ProductEntity
 import com.example.domain.product.usecase.DeleteBookmarkUseCase
 import com.example.domain.product.usecase.FetchProductsUseCase
+import com.example.domain.product.usecase.GetBookmarksUseCase
 import com.example.domain.product.usecase.UpdateBookmarkUseCase
 import com.example.domain.section.usecase.FetchSectionsUseCase
+import com.example.presentation.product.model.Product
 import com.example.presentation.product.model.Product.Companion.convertTo
 import com.example.presentation.sections.data.Section
 import com.example.presentation.sections.data.Section.Companion.convertTo
@@ -17,6 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +27,8 @@ class SectionsViewModel @Inject constructor(
     private val fetchSectionsUseCase: FetchSectionsUseCase,
     private val fetchProductsUseCase: FetchProductsUseCase,
     private val updateBookmarkUseCase: UpdateBookmarkUseCase,
-    private val deleteBookmarkUseCase: DeleteBookmarkUseCase
+    private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
+    private val getBookmarksUseCase: GetBookmarksUseCase
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
@@ -35,6 +39,7 @@ class SectionsViewModel @Inject constructor(
     val sections: StateFlow<List<Section>> = _sections.asStateFlow()
 
     private var nextPage: Int? = null
+    private var bookmarks: List<Int> = mutableListOf()
 
     init {
         fetchSections()
@@ -60,6 +65,7 @@ class SectionsViewModel @Inject constructor(
     fun sectionsClear() {
         _sections.value = emptyList()
     }
+
     fun fetchSections() {
         fetchSectionsUseCase(nextPage ?: 1)
             .observeOn(AndroidSchedulers.mainThread())
@@ -70,6 +76,7 @@ class SectionsViewModel @Inject constructor(
             .subscribe { result ->
                 updateNextPage(result.nextPage)
                 updateSections(result.sections.convertTo())
+                getBookmarks()
             }
             .addTo(compositeDisposable)
     }
@@ -103,7 +110,7 @@ class SectionsViewModel @Inject constructor(
                 title = section.title,
                 type = section.type,
                 url = section.url,
-                products = products.convertTo()
+                products = getCheckedProducts(products.convertTo())
             )
         }
         return tempSections
@@ -120,4 +127,18 @@ class SectionsViewModel @Inject constructor(
     fun deleteBookmark(productId: Int) {
         deleteBookmarkUseCase(productId)
     }
+
+    private fun getBookmarks() {
+        runBlocking {
+            bookmarks = getBookmarksUseCase()
+        }
+    }
+
+    private fun getCheckedProducts(products: List<Product>): List<Product> =
+        products.map { product ->
+            if (bookmarks.contains(product.id)) {
+                product.isBookmarked = true
+            }
+            product
+        }
 }

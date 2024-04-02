@@ -10,7 +10,7 @@ data class Product(
     val originalPrice: Int,
     val discountedPrice: Int?,
     val discountedRate: Float?,
-    val isBookmarked: Boolean = false
+    var isBookmarked: Boolean = false
 ) {
     companion object {
         fun ProductEntity.convertTo(): Product {
