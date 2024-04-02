@@ -2,7 +2,9 @@ package com.example.presentation.sections.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.domain.product.model.ProductEntity
+import com.example.domain.product.usecase.DeleteBookmarkUseCase
 import com.example.domain.product.usecase.FetchProductsUseCase
+import com.example.domain.product.usecase.UpdateBookmarkUseCase
 import com.example.domain.section.usecase.FetchSectionsUseCase
 import com.example.presentation.product.model.Product.Companion.convertTo
 import com.example.presentation.sections.data.Section
@@ -20,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SectionsViewModel @Inject constructor(
     private val fetchSectionsUseCase: FetchSectionsUseCase,
-    private val fetchProductsUseCase: FetchProductsUseCase
+    private val fetchProductsUseCase: FetchProductsUseCase,
+    private val updateBookmarkUseCase: UpdateBookmarkUseCase,
+    private val deleteBookmarkUseCase: DeleteBookmarkUseCase
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
@@ -107,5 +111,13 @@ class SectionsViewModel @Inject constructor(
 
     private fun updateSections(sections: List<Section>) {
         _sections.value = sections
+    }
+
+    fun updateBookmark(productId: Int) {
+        updateBookmarkUseCase(productId)
+    }
+
+    fun deleteBookmark(productId: Int) {
+        deleteBookmarkUseCase(productId)
     }
 }

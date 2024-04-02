@@ -27,9 +27,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.presentation.R
 import com.example.presentation.product.model.Product
+import com.example.presentation.sections.viewmodel.SectionsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
 @Preview
@@ -40,7 +45,8 @@ fun PreviewSmallProduct() {
 
 @Composable
 fun SmallProduct(
-    product: Product
+    product: Product,
+    viewModel: SectionsViewModel = hiltViewModel()
 ) {
     var bookmarkState by rememberSaveable { mutableStateOf(product.isBookmarked) }
 
@@ -65,6 +71,11 @@ fun SmallProduct(
                     .align(Alignment.TopEnd)
                     .padding(start = 0.dp, top = 5.dp, end = 5.dp, bottom = 0.dp)
                     .clickable {
+                        if (bookmarkState) {
+                            viewModel.deleteBookmark(product.id)
+                        } else {
+                            viewModel.updateBookmark(product.id)
+                        }
                         bookmarkState = !bookmarkState
                     }
             )
