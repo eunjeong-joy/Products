@@ -52,7 +52,7 @@ fun HorizontalTypeProduct(
 
     Column(modifier = Modifier
         .width(150.dp)
-        .heightIn(270.dp)
+        .heightIn(275.dp)
     ) {
         Box(modifier = Modifier.height(200.dp)) {
             AsyncImage(
