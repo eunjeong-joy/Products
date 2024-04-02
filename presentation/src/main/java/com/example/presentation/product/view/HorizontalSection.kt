@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +30,7 @@ fun HorizontalSection(
 ) {
     if (section.products.isEmpty()) {
         viewModel.fetchProducts(section.id)
-        Text(text = "Loading") //임시 loading UI
+        ProductsLoadingView()
     } else {
         Column {
             SectionTitle(

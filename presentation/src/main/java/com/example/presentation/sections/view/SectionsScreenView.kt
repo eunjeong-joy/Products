@@ -1,12 +1,12 @@
 package com.example.presentation.sections.view
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -21,7 +21,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.product.view.BigProduct
 import com.example.presentation.product.view.GridSection
 import com.example.presentation.product.view.HorizontalSection
+import com.example.presentation.product.view.ProductsLoadingView
 import com.example.presentation.product.view.SectionTitle
+import com.example.presentation.product.view.SectionsLoadingView
 import com.example.presentation.sections.data.SectionType
 import com.example.presentation.sections.viewmodel.SectionsViewModel
 
@@ -76,7 +78,7 @@ fun SectionsScreenView(
                             if (section.products.isEmpty()) {
                                 viewModel.fetchProducts(section.id)
                                 item {
-                                    Text(text = "Loading") //임시 loading UI
+                                    ProductsLoadingView()
                                 }
                             } else {
                                 item {
@@ -117,9 +119,8 @@ fun SectionsScreenView(
                 }
             }
         } else {
-            Text(text = "section loading") //임시 loading UI
+            SectionsLoadingView()
         }
-
         PullRefreshIndicator(
             modifier = Modifier.align(Alignment.TopCenter),
             refreshing = refreshState ?: false,
