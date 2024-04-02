@@ -42,7 +42,7 @@ fun PreviewSmallProduct() {
 fun SmallProduct(
     product: Product
 ) {
-    var bookmarkState by rememberSaveable { mutableStateOf(false) }
+    var bookmarkState by rememberSaveable { mutableStateOf(product.isBookmarked) }
 
     Column(modifier = Modifier.width(150.dp)) {
         Box(
