@@ -2,6 +2,7 @@ package com.example.presentation.product.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,7 +40,8 @@ fun HorizontalSection(
             )
             Spacer(modifier = Modifier.height(15.dp))
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(start = 15.dp, end = 15.dp)
             ) {
                 items(section.products) { product ->
                     HorizontalTypeProduct(
