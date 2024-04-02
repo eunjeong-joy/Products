@@ -43,7 +43,9 @@ fun HorizontalSection(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(section.products) { product ->
-                    SmallProduct(product = product)
+                    SmallProduct(
+                        product = product
+                    )
                 }
             }
         }
