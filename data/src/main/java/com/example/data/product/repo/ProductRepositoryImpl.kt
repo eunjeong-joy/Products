@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -33,6 +34,12 @@ class ProductRepositoryImpl @Inject constructor(
     override fun deleteProductBookmark(productId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             bookmarkDao.delete(Bookmark(productId))
+        }
+    }
+
+    override suspend fun getProductBookmarks(): List<Int> = withContext(Dispatchers.IO) {
+        bookmarkDao.getAll().map {
+            it.id
         }
     }
 }

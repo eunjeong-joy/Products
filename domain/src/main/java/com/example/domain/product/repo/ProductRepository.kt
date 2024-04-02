@@ -9,4 +9,6 @@ interface ProductRepository {
     fun updateProductBookmark(productId: Int)
 
     fun deleteProductBookmark(productId: Int)
+
+    suspend fun getProductBookmarks(): List<Int>
 }
