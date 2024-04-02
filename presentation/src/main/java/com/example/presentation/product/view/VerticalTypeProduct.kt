@@ -38,12 +38,12 @@ import java.text.NumberFormat
 
 @Preview
 @Composable
-fun PreviewBigProduct() {
-    BigProduct(product = Product.dummy())
+fun PreviewVerticalTypeProduct() {
+    VerticalTypeProduct(product = Product.dummy())
 }
 
 @Composable
-fun BigProduct(
+fun VerticalTypeProduct(
     modifier: Modifier = Modifier,
     product: Product,
     viewModel: SectionsViewModel = hiltViewModel()
