@@ -5,4 +5,10 @@ import io.reactivex.Single
 
 interface ProductRepository {
     fun fetchProducts(sectionId: Int): Single<List<ProductEntity>>
+
+    fun updateProductBookmark(productId: Int)
+
+    fun deleteProductBookmark(productId: Int)
+
+    suspend fun getProductBookmarks(): List<Int>
 }
