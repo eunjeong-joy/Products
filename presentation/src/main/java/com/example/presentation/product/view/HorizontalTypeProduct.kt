@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -38,24 +39,22 @@ import java.text.NumberFormat
 
 @Preview
 @Composable
-fun PreviewSmallProduct() {
-    SmallProduct(product = Product.dummy())
+fun PreviewHorizontalTypeProduct() {
+    HorizontalTypeProduct(product = Product.dummy())
 }
 
 @Composable
-fun SmallProduct(
+fun HorizontalTypeProduct(
     product: Product,
-    widthSize: Dp = 150.dp,
     viewModel: SectionsViewModel = hiltViewModel()
 ) {
     var bookmarkState by rememberSaveable { mutableStateOf(product.isBookmarked) }
 
-    Column(modifier = Modifier.width(widthSize)) {
-        Box(
-            modifier = Modifier.aspectRatio(
-                ratio = 0.75f
-            )
-        ) {
+    Column(modifier = Modifier
+        .width(150.dp)
+        .heightIn(270.dp)
+    ) {
+        Box(modifier = Modifier.height(200.dp)) {
             AsyncImage(
                 model = product.image,
                 contentDescription = null,
